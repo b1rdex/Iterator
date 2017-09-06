@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,16 +34,87 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator;
+namespace {
+
+/**
+ * Offering a PHP5.4 feature to prior versions.
+ */
+if(PHP_VERSION_ID < 50400) {
+
+/**
+ * Class CallbackFilterIterator.
+ *
+ * A callback filter iterator.
+ *
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
+ * @license    New BSD License
+ */
+class CallbackFilterIterator extends FilterIterator {
+
+    /**
+     * Callback.
+     *
+     * @var Closure object
+     */
+    protected $_callback = null;
+
+
+
+    /**
+     * Create a filtered iterator from another iterator.
+     *
+     * @access  public
+     * @param   \Iterator  $iterator    The iterator to be filtered.
+     * @param   \Closure   $callback    The callback, which should return true
+     *                                  to accept the current item false
+     *                                  otherwise.
+     * @return  void
+     */
+    public function __construct ( Iterator $iterator,
+                                  Closure  $callback = null ) {
+
+        $this->_callback = $callback;
+        parent::__construct($iterator);
+
+        return;
+    }
+
+    /**
+     * Cals the callback with the current value, the current key and the inner
+     * iterator as arguments.
+     *
+     * @access  public
+     * @return  bool
+     */
+    public function accept ( ) {
+
+        $callback = $this->_callback;
+
+        return $callback(
+            $this->current(),
+            $this->key(),
+            $this->getInnerIterator()
+        );
+    }
+}
+
+}
+
+}
+
+namespace Hoa\Iterator {
 
 /**
  * Class \Hoa\Iterator\CallbackFilter.
  *
  * Extending the SPL CallbackFilterIterator class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class CallbackFilter extends \CallbackFilterIterator
-{
+
+class CallbackFilter extends \CallbackFilterIterator { }
+
 }

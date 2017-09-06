@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator\Recursive;
+namespace {
+
+from('Hoa')
+
+/**
+ * \Hoa\Iterator\Recursive
+ */
+-> import('Iterator.Recursive.~');
+
+}
+
+namespace Hoa\Iterator\Recursive {
 
 /**
  * Class \Hoa\Iterator\Recursive\Mock.
@@ -42,15 +53,17 @@ namespace Hoa\Iterator\Recursive;
  * Mock a recursive iterator with no children.
  * It allows to use regular iterators with a recursive iterator iterator.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Mock implements Recursive
-{
+
+class Mock implements Recursive {
+
     /**
      * Current iterator.
      *
-     * @var \Traversable
+     * @var \Traversable object
      */
     protected $_iterator = null;
 
@@ -59,13 +72,14 @@ class Mock implements Recursive
     /**
      * Constructor.
      *
+     * @access  public
      * @param   \Traversable  $iterator    Iterator.
+     * @return  void
      */
-    public function __construct(\Traversable $iterator)
-    {
-        if ($iterator instanceof \IteratorAggregate) {
+    public function __construct ( \Traversable $iterator ) {
+
+        if($iterator instanceof \IteratorAggregate)
             $iterator = $iterator->getIterator();
-        }
 
         $this->_iterator = $iterator;
 
@@ -75,50 +89,55 @@ class Mock implements Recursive
     /**
      * Return the current element.
      *
+     * @access  public
      * @return  mixed
      */
-    public function current()
-    {
+    public function current ( ) {
+
         return $this->_iterator->current();
     }
 
     /**
      * Return the key of the current element.
      *
+     * @access  public
      * @return  mixed
      */
-    public function key()
-    {
+    public function key ( ) {
+
         return $this->_iterator->key();
     }
 
     /**
      * Move forward to next element.
      *
+     * @access  public
      * @return  void
      */
-    public function next()
-    {
+    public function next ( ) {
+
         return $this->_iterator->next();
     }
 
     /**
      * Rewind the iterator to the first element.
      *
+     * @access  public
      * @return  void
      */
-    public function rewind()
-    {
+    public function rewind ( ) {
+
         return $this->_iterator->rewind();
     }
 
     /**
      * Check if current position is valid.
      *
+     * @access  public
      * @return  bool
      */
-    public function valid()
-    {
+    public function valid ( ) {
+
         return $this->_iterator->valid();
     }
 
@@ -126,10 +145,11 @@ class Mock implements Recursive
      * Return an iterator for the current entry.
      * It's a fake, we return null.
      *
+     * @access  public
      * @return  void
      */
-    public function getChildren()
-    {
+    public function getChildren ( ) {
+
         return null;
     }
 
@@ -137,10 +157,13 @@ class Mock implements Recursive
      * Return if an iterator can be created for the current entry.
      * It's a fake, we return false.
      *
+     * @access  public
      * @return  bool
      */
-    public function hasChildren()
-    {
+    public function hasChildren ( ) {
+
         return false;
     }
+}
+
 }

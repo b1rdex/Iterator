@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,16 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator;
+namespace Hoa\Iterator {
 
 /**
  * Class \Hoa\Iterator\NoRewind.
  *
  * Extending the SPL NoRewindIterator class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class NoRewind extends \NoRewindIterator
-{
+
+class NoRewind extends \NoRewindIterator { }
+
 }

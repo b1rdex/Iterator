@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,34 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator\Test\Unit;
-
-use Hoa\Iterator as LUT;
-use Hoa\Test;
+namespace Hoa\Iterator {
 
 /**
- * Class \Hoa\Iterator\Test\Unit\Infinite.
+ * Class \Hoa\Iterator\Caching.
  *
- * Test suite of the infinite iterator.
+ * Extending the SPL CachingIterator class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Infinite extends Test\Unit\Suite
-{
-    public function case_classic()
-    {
-        $this
-            ->given(
-                $iterator = new LUT\Map(['a']),
-                $infinite = new LUT\Infinite($iterator),
-                $limit    = new LUT\Limit($infinite, 0, 100)
-            )
-            ->when($result = iterator_to_array($limit, false))
-            ->then
-                ->array($result)
-                    ->isEqualTo(array_fill(0, 100, 'a'))
-                    ->size
-                        ->isEqualTo(100);
-    }
+
+class Caching extends \CachingIterator { }
+
 }

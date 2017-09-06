@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,57 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator\Test\Unit;
-
-use Hoa\Iterator as LUT;
-use Hoa\Test;
+namespace Hoa\Iterator\Recursive {
 
 /**
- * Class \Hoa\Iterator\Test\Unit\Counter.
+ * Class \Hoa\Iterator\Recursive\Tree.
  *
- * Test suite of the counter iterator.
+ * Extending the SPL RecursiveTreeIterator class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Counter extends Test\Unit\Suite
-{
-    public function case_classic()
-    {
-        $this
-            ->given($iterator = new LUT\Counter(0, 12, 3))
-            ->when($result = iterator_to_array($iterator))
-            ->then
-                ->array($result)
-                    ->isEqualTo([0, 3, 6, 9]);
-    }
 
-    public function case_offset()
-    {
-        $this
-            ->given($iterator = new LUT\Counter(6, 12, 3))
-            ->when($result = iterator_to_array($iterator))
-            ->then
-                ->array($result)
-                    ->isEqualTo([6, 9]);
-    }
+class Tree extends \RecursiveTreeIterator { }
 
-    public function case_too_small()
-    {
-        $this
-            ->exception(function () {
-                new LUT\Counter(0, 0, 0);
-            })
-                ->isInstanceOf(LUT\Exception::class);
-    }
-
-    public function case_too_big()
-    {
-        $this
-            ->given($iterator = new LUT\Counter(0, 12, 13))
-            ->when($result = iterator_to_array($iterator))
-            ->then
-                ->array($result)
-                    ->isEqualTo([0]);
-    }
 }

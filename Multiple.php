@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,24 +34,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator;
+namespace Hoa\Iterator {
 
 /**
  * Class \Hoa\Iterator\Multiple.
  *
  * Extending the SPL MultipleIterator class.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Multiple extends \MultipleIterator
-{
+
+class Multiple extends \MultipleIterator {
+
     /**
      * Default value for each $infos.
      *
-     * @var array
+     * @var \Hoa\Iterator\Multiple array
      */
-    protected $_infos = [];
+    protected $_infos = array();
 
 
 
@@ -60,23 +62,21 @@ class Multiple extends \MultipleIterator
      * Add the $default argument that will be use when the iterator has reached
      * its end.
      *
+     * @access  public
      * @param   \Iterator  $iterator    Iterator.
      * @param   string     $infos       Informations to attach.
      * @param   mixed      $default     Default value.
      * @return  void
      */
-    public function attachIterator(
-        \Iterator $iterator,
-        $infos   = null,
-        $default = null
-    ) {
+    public function attachIterator ( \Iterator $iterator, $infos = null,
+                                     $default = null ) {
+
         $out = parent::attachIterator($iterator, $infos);
 
-        if (null === $infos) {
+        if(null === $infos)
             $this->_infos[]       = $default;
-        } else {
+        else
             $this->_infos[$infos] = $default;
-        }
 
         return $out;
     }
@@ -84,18 +84,19 @@ class Multiple extends \MultipleIterator
     /**
      * Get the registered iterator instances.
      *
+     * @access  public
      * @return  array
      */
-    public function current()
-    {
+    public function current ( ) {
+
         $out = parent::current();
 
-        foreach ($out as $key => &$value) {
-            if (null === $value) {
+        foreach($out as $key => &$value)
+            if(null === $value)
                 $value = $this->_infos[$key];
-            }
-        }
 
         return $out;
     }
+}
+
 }

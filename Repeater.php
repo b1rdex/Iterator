@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,43 +34,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator;
+namespace {
+
+from('Hoa')
+
+/**
+ * Hoa\Iterator\Exception
+ */
+-> import('Iterator.Exception')
+
+/**
+ * Hoa\Iterator
+ */
+-> import('Iterator.~');
+
+}
+
+namespace Hoa\Iterator {
 
 /**
  * Class \Hoa\Iterator\Repeater.
  *
  * Repeat an iterator n-times.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Repeater implements Iterator
-{
+
+class Repeater implements Iterator {
+
     /**
      * Current iterator.
      *
-     * @var \Traversable
+     * @var \Traversable object
      */
     protected $_iterator = null;
 
     /**
      * Maximum repetition.
      *
-     * @var int
+     * @var \Hoa\Iterator\Repeater int
      */
     protected $_n        = 1;
 
     /**
      * Current repetition.
      *
-     * @var int
+     * @var \Hoa\Iterator\Repeater int
      */
     protected $_i        = 1;
 
     /**
      * Body (callable to execute each time).
      *
-     * @var callable
+     * @var \Hoa\Iterator\Repeater callable
      */
     protected $_body     = null;
 
@@ -79,24 +97,21 @@ class Repeater implements Iterator
     /**
      * Constructor.
      *
+     * @access  public
      * @param   \Traversable  $iterator    Iterator.
      * @param   int           $n           Repeat $n-times.
      * @param   callable      $body        Body.
-     * @throws  \Hoa\Iterator\Exception
+     * @return  void
+     * @throw   \Hoa\Iterator\Exception
      */
-    public function __construct(\Traversable $iterator, $n, $body = null)
-    {
-        if (0 >= $n) {
-            throw new Exception(
-                'n must be greater than 0, given %d.',
-                0,
-                $n
-            );
-        }
+    public function __construct ( \Traversable $iterator, $n, $body = null ) {
 
-        if ($iterator instanceof \IteratorAggregate) {
+        if(0 >= $n)
+            throw new Exception(
+                'n must be greater than 0, given %d.', 0, $n);
+
+        if($iterator instanceof \IteratorAggregate)
             $iterator = $iterator->getIterator();
-        }
 
         $this->_iterator = $iterator;
         $this->_n        = $n;
@@ -108,64 +123,70 @@ class Repeater implements Iterator
     /**
      * Return the current element.
      *
+     * @access  public
      * @return  mixed
      */
-    public function current()
-    {
+    public function current ( ) {
+
         return $this->_iterator->current();
     }
 
     /**
      * Return the key of the current element.
      *
+     * @access  public
      * @return  mixed
      */
-    public function key()
-    {
+    public function key ( ) {
+
         return $this->_iterator->key();
     }
 
     /**
      * Move forward to next element.
      *
+     * @access  public
      * @return  void
      */
-    public function next()
-    {
+    public function next ( ) {
+
         return $this->_iterator->next();
     }
 
     /**
      * Rewind the iterator to the first element.
      *
+     * @access  public
      * @return  void
      */
-    public function rewind()
-    {
+    public function rewind ( ) {
+
         return $this->_iterator->rewind();
     }
 
     /**
      * Check if current position is valid.
      *
+     * @access  public
      * @return  bool
      */
-    public function valid()
-    {
+    public function valid ( ) {
+
         $valid = $this->_iterator->valid();
 
-        if (true === $valid) {
+        if(true === $valid)
             return true;
-        }
 
-        if (null !== $this->_body) {
+        if(null !== $this->_body) {
+
             $handle = &$this->_body;
             $handle($this->_i);
         }
 
         $this->rewind();
 
-        if ($this->_n <= $this->_i++) {
+        if($this->_n <= $this->_i++) {
+
             $this->_i = 1;
 
             return false;
@@ -173,4 +194,6 @@ class Repeater implements Iterator
 
         return true;
     }
+}
+
 }

@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2017, Hoa community. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,62 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Iterator\Test\Unit;
-
-use Hoa\Iterator as LUT;
-use Hoa\Test;
+namespace Hoa\Iterator {
 
 /**
- * Class \Hoa\Iterator\Test\Unit\Limit.
+ * Class \Hoa\Iterator\HasChildren.
  *
- * Test suite of the limit iterator.
+ * Extending the SPL ParentIterator interface.
  *
- * @copyright  Copyright © 2007-2017 Hoa community
+ * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
+ * @copyright  Copyright © 2007-2013 Ivan Enderlin.
  * @license    New BSD License
  */
-class Limit extends Test\Unit\Suite
-{
-    private static $_dummyArray = ['f', 'o', 'o', 'b', 'a', 'r'];
 
+class HasChildren extends \ParentIterator { }
 
-
-    public function case_classic()
-    {
-        $this
-            ->given(
-                $iterator = new LUT\Map(self::$_dummyArray),
-                $limit    = new LUT\Limit($iterator, 2, 3)
-            )
-            ->when($result = iterator_to_array($limit))
-            ->then
-                ->array($result)
-                    ->isEqualTo([
-                        2 => 'o',
-                        3 => 'b',
-                        4 => 'a'
-                    ]);
-    }
-
-    public function case_negative_offset()
-    {
-        $this
-            ->given($iterator = new LUT\Map(self::$_dummyArray))
-            ->exception(function () use ($iterator) {
-                new LUT\Limit($iterator, -2, 3);
-            })
-                ->isInstanceOf(\OutOfRangeException::class);
-    }
-
-    public function case_empty()
-    {
-        $this
-            ->given(
-                $iterator = new LUT\Map(self::$_dummyArray),
-                $limit    = new LUT\Limit($iterator, 0, 0)
-            )
-            ->exception(function () use ($limit) {
-                iterator_to_array($limit);
-            })
-                ->isInstanceOf(\OutOfBoundsException::class);
-    }
 }
